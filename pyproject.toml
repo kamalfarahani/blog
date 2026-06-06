@@ -8,10 +8,13 @@ dependencies = [
     "django>=6.0.6",
     "markdown>=3.10.2",
     "pillow>=12.2.0",
+    "psycopg[binary]>=3.3.4",
+    "python-dotenv>=1.2.2",
 ]
 
 [dependency-groups]
 dev = [
+    "django-debug-toolbar>=6.3.0",
     "django-stubs>=6.0.5",
     "mypy>=2.1.0",
 ]
