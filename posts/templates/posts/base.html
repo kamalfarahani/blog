@@ -12,7 +12,10 @@
   </head>
   <body>
     <div class="content-card">
-      <nav><a href="{% url 'post_list' %}">Blog</a></nav>
+      <nav>
+        <a href="{% url 'post_list' %}">Blog</a>
+        <a href="{% url 'about' %}">About</a>
+      </nav>
       {% block content %}{% endblock %}
     </div>
   </body>

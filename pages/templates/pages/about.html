@@ -1,0 +1,25 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+{% if page %}
+<article>
+  {% if page.photo %}
+  <img class="post-image" src="{{ page.photo.url }}" alt="{{ page.name }}" />
+  {% endif %}
+  <h1>{{ page.name }}</h1>
+  <div class="post-body">{{ page.bio|linebreaks }}</div>
+  {% if page.email or page.github_url or page.linkedin_url or page.twitter_url %}
+  <div class="about-links post-meta">
+    {% if page.email %}<a href="mailto:{{ page.email }}">Email</a> {% endif %}
+    {% if page.github_url %}<a href="{{ page.github_url }}">GitHub</a> {% endif %}
+    {% if page.linkedin_url %}<a href="{{ page.linkedin_url }}">LinkedIn</a> {% endif %}
+    {% if page.twitter_url %}<a href="{{ page.twitter_url }}">Twitter / X</a>{% endif %}
+  </div>
+  {% endif %}
+</article>
+{% else %}
+<p>Coming soon.</p>
+{% endif %}
+{% endblock %}
