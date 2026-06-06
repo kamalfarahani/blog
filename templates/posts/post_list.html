@@ -1,4 +1,5 @@
 {% extends 'posts/base.html' %}
+{% load markdown_extras %}
 
 {% block title %}Blog{% endblock %}
 
@@ -13,7 +14,7 @@
     {% if post.category %} &middot; {{ post.category }}{% endif %}
   </p>
   {% if post.excerpt %}
-  <p>{{ post.excerpt }}</p>
+  {{ post.excerpt|markdown }}
   {% endif %}
   {% if post.tags.all %}
   <div class="tags">
