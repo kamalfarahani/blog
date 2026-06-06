@@ -1,22 +1,19 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Blog{% endblock %}</title>
-    <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 1rem; color: #222; }
-        nav { margin-bottom: 1rem; }
-        nav a { margin-right: 1rem; text-decoration: none; font-weight: bold; }
-        .post-meta { color: #666; font-size: 0.9rem; }
-        .tags { margin-top: 0.5rem; }
-        .tags span { background: #eee; padding: 0.2rem 0.5rem; border-radius: 3px; margin-right: 0.3rem; font-size: 0.85rem; }
-        hr { border: none; border-top: 1px solid #ddd; }
-    </style>
-</head>
-<body>
-    <nav><a href="{% url 'post_list' %}">Blog</a></nav>
-    <hr>
-    {% block content %}{% endblock %}
-</body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'posts/style.css' %}" />
+  </head>
+  <body>
+    <div class="content-card">
+      <nav><a href="{% url 'post_list' %}">Blog</a></nav>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
 </html>
