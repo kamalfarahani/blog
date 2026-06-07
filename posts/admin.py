@@ -17,8 +17,8 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "status", "published_at")
-    list_filter = ("status", "category", "tags", "published_at")
+    list_display = ("title", "get_categories", "status", "published_at")
+    list_filter = ("status", "categories", "tags", "published_at")
     search_fields = ("title", "body", "excerpt")
     prepopulated_fields = {"slug": ("title",)}
     fieldsets = (
@@ -31,7 +31,7 @@ class PostAdmin(admin.ModelAdmin):
         (
             "Taxonomy",
             {
-                "fields": ("category", "tags"),
+                "fields": ("categories", "tags"),
             },
         ),
         (
@@ -41,3 +41,7 @@ class PostAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    @admin.display(description="Categories")
+    def get_categories(self, obj):
+        return ", ".join(c.name for c in obj.categories.all())

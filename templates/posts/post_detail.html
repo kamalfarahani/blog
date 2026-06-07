@@ -8,7 +8,7 @@
   <h1>{{ post.title }}</h1>
   <p class="post-meta">
     {{ post.published_at|date:"F j, Y" }}
-    {% if post.category %} &middot; {{ post.category }}{% endif %}
+    {% if post.categories.all %} &middot; {% for cat in post.categories.all %}<a href="{% url 'category_detail' cat.slug %}">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}
   </p>
   {% if post.featured_image %}
   <img class="post-image" src="{{ post.featured_image.url }}" alt="{{ post.title }}" />

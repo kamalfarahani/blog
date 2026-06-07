@@ -44,13 +44,7 @@ class Post(models.Model):
     body = models.TextField()
     excerpt = models.TextField(blank=True)
     featured_image = models.ImageField(upload_to="posts/", blank=True)
-    category = models.ForeignKey(
-        Category,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="posts",
-    )
+    categories = models.ManyToManyField(Category, blank=True, related_name="posts")
     tags = models.ManyToManyField(Tag, blank=True, related_name="posts")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=DRAFT)
     published_at = models.DateTimeField(null=True, blank=True)

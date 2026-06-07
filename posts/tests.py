@@ -43,10 +43,6 @@ class PostModelTest(TestCase):
         post = Post.objects.create(title="Test Post", body="Body")
         self.assertEqual(str(post), "Test Post")
 
-    def test_category_nullable(self):
-        post = Post.objects.create(title="No Category", body="Body")
-        self.assertIsNone(post.category)
-
     def test_published_at_nullable(self):
         post = Post.objects.create(title="No Date", body="Body")
         self.assertIsNone(post.published_at)
@@ -134,3 +130,69 @@ class PostDetailViewTest(TestCase):
             reverse("post_detail", kwargs={"slug": "no-such-post"})
         )
         self.assertEqual(response.status_code, 404)
+
+
+def make_category(name="Django"):
+    return Category.objects.create(name=name, slug=name.lower())
+
+
+def make_post(title="Test Post", status=Post.PUBLISHED):
+    return Post.objects.create(
+        title=title,
+        slug=title.lower().replace(" ", "-"),
+        body="body",
+        status=status,
+        published_at=timezone.now() if status == Post.PUBLISHED else None,
+    )
+
+
+class PostCategoriesModelTest(TestCase):
+    def test_post_can_have_multiple_categories(self):
+        post = make_post()
+        cat1 = make_category("Django")
+        cat2 = make_category("Python")
+        post.categories.add(cat1, cat2)
+        self.assertEqual(set(post.categories.all()), {cat1, cat2})
+
+    def test_post_can_have_no_categories(self):
+        post = make_post()
+        self.assertEqual(post.categories.count(), 0)
+
+
+class CategoryDetailViewTest(TestCase):
+    def setUp(self):
+        self.category = make_category("Django")
+        self.published = make_post("Published Post")
+        self.published.categories.add(self.category)
+        self.draft = make_post("Draft Post", status=Post.DRAFT)
+        self.draft.categories.add(self.category)
+
+    def test_returns_200_for_valid_slug(self):
+        url = reverse("category_detail", kwargs={"slug": "django"})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_returns_404_for_unknown_slug(self):
+        url = reverse("category_detail", kwargs={"slug": "unknown"})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_shows_published_posts_only(self):
+        url = reverse("category_detail", kwargs={"slug": "django"})
+        response = self.client.get(url)
+        posts = list(response.context["posts"])
+        self.assertIn(self.published, posts)
+        self.assertNotIn(self.draft, posts)
+
+    def test_category_in_context(self):
+        url = reverse("category_detail", kwargs={"slug": "django"})
+        response = self.client.get(url)
+        self.assertEqual(response.context["category"], self.category)
+
+    def test_excludes_posts_from_other_categories(self):
+        other_cat = make_category("Other")
+        other_post = make_post("Other Post")
+        other_post.categories.add(other_cat)
+        url = reverse("category_detail", kwargs={"slug": "django"})
+        response = self.client.get(url)
+        self.assertNotIn(other_post, list(response.context["posts"]))
