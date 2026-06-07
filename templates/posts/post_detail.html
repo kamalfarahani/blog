@@ -1,7 +1,15 @@
 {% extends 'posts/base.html' %}
-{% load markdown_extras %}
+{% load static markdown_extras %}
 
 {% block title %}{{ post.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'base/pygments.css' %}" />
+<style>
+  .highlight { border-radius: 6px; padding: 1em; overflow-x: auto; margin: 1.2em 0; }
+  .highlight pre { margin: 0; font-size: .9em; line-height: 1.5; }
+</style>
+{% endblock %}
 
 {% block content %}
 <article>
