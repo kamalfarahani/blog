@@ -1,0 +1,48 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.filter,
+.filterActive {
+  padding: 0.4rem 1rem;
+  border: 1px solid #e7e4dd;
+  border-radius: 999px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #6b6b66;
+  transition: all 0.2s ease;
+}
+
+.filter:hover {
+  border-color: #4fb8b2;
+  color: #4fb8b2;
+}
+
+.filterActive {
+  background: #4fb8b2;
+  border-color: #4fb8b2;
+  color: #fff;
+}
+
+:global(.dark) .filter {
+  border-color: #322f2a;
+  color: #b3b0a8;
+}
+
+:global(.dark) .filter:hover {
+  border-color: #5fcbc4;
+  color: #5fcbc4;
+}
+
+:global(.dark) .filterActive {
+  background: #5fcbc4;
+  border-color: #5fcbc4;
+  color: #1a1916;
+}

@@ -7,6 +7,17 @@
 
   color: var(--ink);
   font-family: Georgia, 'Times New Roman', serif;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--rule));
+  box-shadow: 0 8px 28px -16px rgba(0, 0, 0, 0.25);
 }
 
 :global(.dark) .card {
