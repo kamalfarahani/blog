@@ -3,6 +3,9 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 
+import '@fontsource-variable/newsreader/index.css'
+import '@fontsource-variable/newsreader/wght-italic.css'
+
 import { Navbar, type NavLink } from '#/components/Navbar'
 
 import appCss from '../styles.css?url'
@@ -45,7 +48,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
+      <body>
         <Navbar links={NAV_LINKS} />
         {children}
         <TanStackDevtools

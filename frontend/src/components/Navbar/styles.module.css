@@ -2,35 +2,32 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid #e7e4dd;
-  background: rgba(252, 251, 248, 0.8);
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-surface-translucent);
   backdrop-filter: blur(8px);
-}
-
-:global(.dark) .navbar {
-  border-bottom-color: #322f2a;
-  background: rgba(22, 21, 18, 0.7);
 }
 
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 60rem;
+  max-width: var(--measure-wide);
   margin: 0 auto;
   padding: 1.1rem 1.5rem;
 }
 
 .brand {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-size: 1.25rem;
   letter-spacing: 0.02em;
   text-decoration: none;
-  color: #2b2b29;
+  color: var(--color-ink);
 }
 
-:global(.dark) .brand {
-  color: #e9e7e1;
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .links {
@@ -45,21 +42,21 @@
 .link,
 .linkActive {
   position: relative;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  color: #6b6b66;
-  transition: color 0.2s ease;
+  color: var(--color-ink-soft);
+  transition: color var(--ease);
 }
 
 .link:hover {
-  color: #4fb8b2;
+  color: var(--color-accent);
 }
 
 .linkActive {
-  color: #2b2b29;
+  color: var(--color-ink);
 }
 
 .linkActive::after {
@@ -69,21 +66,5 @@
   right: 0;
   bottom: -0.4rem;
   height: 1px;
-  background: #4fb8b2;
-}
-
-:global(.dark) .link {
-  color: #b3b0a8;
-}
-
-:global(.dark) .link:hover {
-  color: #5fcbc4;
-}
-
-:global(.dark) .linkActive {
-  color: #e9e7e1;
-}
-
-:global(.dark) .linkActive::after {
-  background: #5fcbc4;
+  background: var(--color-accent);
 }

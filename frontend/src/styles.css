@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --color-bg: #f7f5ef; /* warm paper, not pure white */
+  --color-surface: #fcfbf7; /* cards / solid navbar */
+  --color-surface-translucent: rgba(252, 251, 247, 0.8); /* navbar */
+
+  /* Ink scale */
+  --color-ink: #2b2b29;
+  --color-ink-soft: #6b6b66;
+  --color-ink-faint: #9a9a93;
+
+  /* Lines & accent */
+  --color-rule: #e7e4dd;
+  --color-divider-mid: #c9c5bc;
+  --color-accent: #4fb8b2;
+  --color-on-accent: #fcfbf7;
+  --color-accent-tint: rgba(79, 184, 178, 0.12);
+  --color-accent-selection: rgba(79, 184, 178, 0.22);
+
+  /* Elevation */
+  --shadow-card: 0 8px 28px -16px rgba(60, 56, 48, 0.18);
+
+  /* Typography */
+  --font-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Layout rhythm */
+  --measure: 42rem;
+  --measure-wide: 60rem;
+
+  /* Motion */
+  --ease: 0.25s ease;
+  --ease-slow: 0.4s ease;
+}
+
+/* Must come after :root — equal specificity, source order wins. */
+.dark {
+  color-scheme: dark;
+
+  --color-bg: #1a1916;
+  --color-surface: #201e19;
+  --color-surface-translucent: rgba(22, 21, 18, 0.7);
+
+  --color-ink: #e9e7e1;
+  --color-ink-soft: #b3b0a8;
+  --color-ink-faint: #807d75;
+
+  --color-rule: #322f2a;
+  --color-divider-mid: #4a463f;
+  --color-accent: #5fcbc4;
+  --color-on-accent: #1a1916;
+  --color-accent-tint: rgba(95, 203, 196, 0.14);
+  --color-accent-selection: rgba(95, 203, 196, 0.24);
+
+  --shadow-card: 0 8px 28px -16px rgba(0, 0, 0, 0.5);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: anywhere;
+  transition:
+    background-color var(--ease-slow),
+    color var(--ease-slow);
+}
+
+::selection {
+  background: var(--color-accent-selection);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

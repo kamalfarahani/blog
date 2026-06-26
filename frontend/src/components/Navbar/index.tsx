@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
+import { ThemeToggle } from '#/components/ThemeToggle'
+
 import styles from './styles.module.css'
 
 export interface NavLink {
@@ -25,20 +27,23 @@ export function Navbar({ links = DEFAULT_NAV_LINKS }: NavbarProps) {
           The Blog
         </Link>
 
-        <ul className={styles.links}>
-          {links.map((link) => (
-            <li key={link.to}>
-              <Link
-                to={link.to}
-                className={styles.link}
-                activeProps={{ className: styles.linkActive }}
-                activeOptions={{ exact: link.exact ?? false }}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.right}>
+          <ul className={styles.links}>
+            {links.map((link) => (
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  className={styles.link}
+                  activeProps={{ className: styles.linkActive }}
+                  activeOptions={{ exact: link.exact ?? false }}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   )

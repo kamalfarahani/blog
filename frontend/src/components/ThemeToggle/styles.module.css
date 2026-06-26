@@ -1,0 +1,27 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition:
+    color var(--ease),
+    background-color var(--ease);
+}
+
+.toggle:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+.placeholder {
+  display: block;
+  width: 18px;
+  height: 18px;
+}

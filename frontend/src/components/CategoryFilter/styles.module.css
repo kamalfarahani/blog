@@ -9,40 +9,24 @@
 .filter,
 .filterActive {
   padding: 0.4rem 1rem;
-  border: 1px solid #e7e4dd;
+  border: 1px solid var(--color-rule);
   border-radius: 999px;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
-  color: #6b6b66;
-  transition: all 0.2s ease;
+  color: var(--color-ink-soft);
+  transition: all var(--ease);
 }
 
 .filter:hover {
-  border-color: #4fb8b2;
-  color: #4fb8b2;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .filterActive {
-  background: #4fb8b2;
-  border-color: #4fb8b2;
-  color: #fff;
-}
-
-:global(.dark) .filter {
-  border-color: #322f2a;
-  color: #b3b0a8;
-}
-
-:global(.dark) .filter:hover {
-  border-color: #5fcbc4;
-  color: #5fcbc4;
-}
-
-:global(.dark) .filterActive {
-  background: #5fcbc4;
-  border-color: #5fcbc4;
-  color: #1a1916;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
 }

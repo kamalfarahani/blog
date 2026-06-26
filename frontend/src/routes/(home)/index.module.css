@@ -1,7 +1,7 @@
 .page {
-  max-width: 60rem;
+  max-width: var(--measure-wide);
   margin: 0 auto;
-  padding: 6rem 1.5rem 10rem;
+  padding: 7rem 1.5rem 10rem;
 }
 
 .hero {
@@ -13,31 +13,31 @@
 
 .eyebrow {
   margin: 0 0 1.5rem;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: #4fb8b2;
+  color: var(--color-accent);
 }
 
 .title {
   margin: 0;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-weight: 400;
   font-size: clamp(2.25rem, 6vw, 3.5rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: #2b2b29;
+  color: var(--color-ink);
 }
 
 .tagline {
   margin: 1.75rem auto 0;
   max-width: 32rem;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-size: 1.15rem;
   line-height: 1.75;
-  color: #6b6b66;
+  color: var(--color-ink-soft);
 }
 
 .latest {
@@ -50,52 +50,28 @@
   justify-content: space-between;
   margin-bottom: 2.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e7e4dd;
+  border-bottom: 1px solid var(--color-rule);
 }
 
 .latestHeading {
   margin: 0;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-weight: 400;
   font-size: 1.5rem;
   letter-spacing: -0.01em;
-  color: #2b2b29;
+  color: var(--color-ink);
 }
 
 .viewAll {
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  color: #4fb8b2;
-  transition: opacity 0.2s ease;
+  color: var(--color-accent);
+  transition: opacity var(--ease);
 }
 
 .viewAll:hover {
   opacity: 0.7;
-}
-
-:global(.dark) .eyebrow {
-  color: #5fcbc4;
-}
-
-:global(.dark) .title {
-  color: #e9e7e1;
-}
-
-:global(.dark) .tagline {
-  color: #b3b0a8;
-}
-
-:global(.dark) .latestHeader {
-  border-bottom-color: #322f2a;
-}
-
-:global(.dark) .latestHeading {
-  color: #e9e7e1;
-}
-
-:global(.dark) .viewAll {
-  color: #5fcbc4;
 }

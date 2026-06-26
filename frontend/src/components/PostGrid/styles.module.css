@@ -6,10 +6,6 @@
 
 .empty {
   text-align: center;
-  font-family: Georgia, 'Times New Roman', serif;
-  color: #9a9a93;
-}
-
-:global(.dark) .empty {
-  color: #807d75;
+  font-family: var(--font-serif);
+  color: var(--color-ink-faint);
 }
