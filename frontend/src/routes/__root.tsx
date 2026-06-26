@@ -10,6 +10,11 @@ import { Navbar, type NavLink } from '#/components/Navbar'
 
 import appCss from '../styles.css?url'
 
+const SITE_NAME = 'The Blog'
+const SITE_TITLE = 'The Blog'
+const SITE_DESCRIPTION =
+  'A quiet corner of the internet for essays, engineering notes, and the occasional book.'
+
 const NAV_LINKS: NavLink[] = [
   { label: 'Home', to: '/', exact: true },
   { label: 'Posts', to: '/posts' },
@@ -21,22 +26,26 @@ const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getIte
 export const Route = createRootRoute({
   head: () => ({
     meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: SITE_TITLE },
+      { name: 'description', content: SITE_DESCRIPTION },
+      { name: 'theme-color', content: '#f7f5ef' },
+      // Open Graph
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: SITE_NAME },
+      { property: 'og:title', content: SITE_TITLE },
+      { property: 'og:description', content: SITE_DESCRIPTION },
+      { property: 'og:image', content: '/logo.svg' },
+      // Twitter
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:title', content: SITE_TITLE },
+      { name: 'twitter:description', content: SITE_DESCRIPTION },
+      { name: 'twitter:image', content: '/logo.svg' },
     ],
     links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' },
     ],
   }),
   shellComponent: RootDocument,

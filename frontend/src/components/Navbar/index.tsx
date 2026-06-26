@@ -25,7 +25,8 @@ export function Navbar({ links = DEFAULT_NAV_LINKS }: NavbarProps) {
     <header className={styles.navbar}>
       <nav className={styles.inner} aria-label="Primary">
         <Link to="/" className={styles.brand}>
-          The Blog
+          <img className={styles.logo} src="/logo.svg" alt="" aria-hidden="true" />
+          <span>The Blog</span>
         </Link>
 
         <div className={styles.right}>
