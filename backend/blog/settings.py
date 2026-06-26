@@ -178,21 +178,37 @@ STORAGES: dict[str, dict] = {
 }
 
 if USE_S3:
+    # Private bucket by default: ImageField.url returns a presigned URL that
+    # expires after AWS_QUERYSTRING_EXPIRE seconds. Set AWS_QUERYSTRING_AUTH=false
+    # for a public bucket (then you can also serve via a CDN custom domain).
+    AWS_QUERYSTRING_AUTH = (
+        os.environ.get("AWS_QUERYSTRING_AUTH", "true").lower() == "true"
+    )
+
+    s3_options = {
+        "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+        "region_name": os.environ.get("AWS_S3_REGION_NAME") or None,
+        "endpoint_url": os.environ.get("AWS_S3_ENDPOINT_URL") or None,
+        "access_key": os.environ.get("AWS_ACCESS_KEY_ID") or None,
+        "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY") or None,
+        # SigV4 — required by newer AWS regions and S3-compatible providers
+        # (R2/B2); the legacy SigV2 presign is rejected there.
+        "signature_version": os.environ.get("AWS_S3_SIGNATURE_VERSION", "s3v4"),
+        "querystring_auth": AWS_QUERYSTRING_AUTH,
+        "querystring_expire": int(os.environ.get("AWS_QUERYSTRING_EXPIRE", "3600")),
+        "location": os.environ.get("AWS_LOCATION", "media"),
+        "file_overwrite": False,
+    }
+
+    # A CDN custom domain bypasses query-string signing, so it only applies to
+    # public buckets. With signed URLs the link must hit the bucket/endpoint
+    # host directly so the signature is honored.
+    if not AWS_QUERYSTRING_AUTH:
+        s3_options["custom_domain"] = os.environ.get("AWS_S3_CUSTOM_DOMAIN") or None
+
     STORAGES["default"] = {
         "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-            "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
-            "region_name": os.environ.get("AWS_S3_REGION_NAME") or None,
-            "endpoint_url": os.environ.get("AWS_S3_ENDPOINT_URL") or None,
-            "access_key": os.environ.get("AWS_ACCESS_KEY_ID") or None,
-            "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY") or None,
-            # Public CDN/bucket domain so ImageField.url returns a public URL.
-            "custom_domain": os.environ.get("AWS_S3_CUSTOM_DOMAIN") or None,
-            # Public objects (images) — no signed URLs, cacheable by the browser.
-            "querystring_auth": False,
-            "location": os.environ.get("AWS_LOCATION", "media"),
-            "file_overwrite": False,
-        },
+        "OPTIONS": s3_options,
     }
 
 

@@ -44,13 +44,29 @@ AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
 AWS_S3_REGION_NAME=...            # e.g. us-east-1 (or "auto" for R2)
 AWS_S3_ENDPOINT_URL=...           # required for R2/B2/MinIO
-AWS_S3_CUSTOM_DOMAIN=cdn.example.com   # public CDN/bucket domain
 ```
 
-Uploads then go straight to the bucket and `ImageField.url` returns the public
-CDN URL — the frontend needs no changes. Objects are public (no signed URLs) so
-browsers and CDNs can cache them. The bucket should allow public reads on the
-`media/` prefix.
+Uploads go straight to the bucket and `ImageField.url` returns a URL the
+frontend uses directly — **no frontend changes needed**.
+
+**Private bucket (default).** With `AWS_QUERYSTRING_AUTH=true` (the default),
+`ImageField.url` returns a **presigned URL** (SigV4) that expires after
+`AWS_QUERYSTRING_EXPIRE` seconds (default 3600). The bucket can stay private;
+no public access policy is required. Because the API generates the signature
+when it serves the JSON, the link is valid for the viewer's session window —
+raise `AWS_QUERYSTRING_EXPIRE` if you cache pages for longer than the lifetime.
+A CDN `custom_domain` is **not** used in this mode (a signed URL must hit the
+bucket/endpoint host directly).
+
+**Public bucket (optional).** Set `AWS_QUERYSTRING_AUTH=false` for unsigned,
+cacheable URLs and optionally a CDN domain:
+
+```
+AWS_QUERYSTRING_AUTH=false
+AWS_S3_CUSTOM_DOMAIN=cdn.example.com   # https://cdn.example.com/media/...
+```
+
+The bucket must then allow public reads on the `media/` prefix.
 
 > WhiteNoise serves **static** files only (admin, DRF browsable API); it does
 > not handle runtime-uploaded media. That's why media uses object storage.
