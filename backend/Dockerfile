@@ -19,4 +19,4 @@ RUN uv sync --frozen --no-dev
 EXPOSE 8000
 
 # Migrate + collect static, then serve with gunicorn.
-CMD ["sh", "-c", "uv run python manage.py migrate --noinput && uv run python manage.py collectstatic --noinput && uv run gunicorn blog.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
+CMD ["sh", "-c", "uv run python manage.py migrate --noinput && uv run python manage.py ensure_superuser && uv run python manage.py collectstatic --noinput && uv run gunicorn blog.wsgi:application --bind 0.0.0.0:8000 --workers 3"]

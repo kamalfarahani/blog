@@ -24,9 +24,5 @@ dev = [
     "mypy>=2.1.0",
 ]
 
-[tool.mypy]
-python_version = "3.13"
-plugins = ["mypy_django_plugin.main"]
-
 [tool.django-stubs]
 django_settings_module = "blog.settings"
