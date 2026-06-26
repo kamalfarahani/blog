@@ -1,3 +1,4 @@
+import type { About } from '#/components/About/types'
 import type { Post } from '#/components/Post/types'
 
 /**
@@ -32,4 +33,10 @@ export function fetchPosts(): Promise<Paginated<Post>> {
 
 export function fetchPost(slug: string): Promise<Post> {
   return apiFetch<Post>(`/api/posts/${slug}/`)
+}
+
+/** The About page is a singleton; returns the first record or null. */
+export async function fetchAbout(): Promise<About | null> {
+  const { results } = await apiFetch<Paginated<About>>('/api/about/')
+  return results[0] ?? null
 }

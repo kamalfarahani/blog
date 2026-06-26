@@ -1,0 +1,83 @@
+.about {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  line-height: 1.85;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.photo {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 999px;
+  margin-bottom: 2rem;
+}
+
+.name {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.socials {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  color: var(--color-ink-soft);
+  transition:
+    color var(--ease),
+    background-color var(--ease);
+}
+
+.social:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+.bio {
+  font-size: 1.15rem;
+}
+
+.bio > :first-child {
+  margin-top: 0;
+}
+
+.bio > :last-child {
+  margin-bottom: 0;
+}
+
+.bio p {
+  margin: 0 0 2rem;
+}
+
+.bio a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+  transition: border-color var(--ease);
+}
+
+.bio a:hover {
+  border-bottom-color: var(--color-accent);
+}

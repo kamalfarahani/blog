@@ -13,6 +13,7 @@ export interface NavLink {
 export const DEFAULT_NAV_LINKS: NavLink[] = [
   { label: 'Home', to: '/', exact: true },
   { label: 'Posts', to: '/posts' },
+  { label: 'About', to: '/about' },
 ]
 
 export interface NavbarProps {
