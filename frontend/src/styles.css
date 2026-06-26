@@ -19,6 +19,16 @@
   --color-accent-tint: rgba(79, 184, 178, 0.12);
   --color-accent-selection: rgba(79, 184, 178, 0.22);
 
+  /* Syntax highlighting (highlight.js tokens) */
+  --syntax-comment: #9a9a93;
+  --syntax-keyword: #a3506a;
+  --syntax-string: #5a7d4f;
+  --syntax-number: #b5762f;
+  --syntax-title: #3a6ea5;
+  --syntax-type: #2f8c86;
+  --syntax-literal: #a3506a;
+  --syntax-meta: #6b6b66;
+
   /* Elevation */
   --shadow-card: 0 8px 28px -16px rgba(60, 56, 48, 0.18);
 
@@ -56,6 +66,16 @@
   --color-accent-selection: rgba(95, 203, 196, 0.24);
 
   --shadow-card: 0 8px 28px -16px rgba(0, 0, 0, 0.5);
+
+  /* Syntax highlighting (highlight.js tokens) */
+  --syntax-comment: #807d75;
+  --syntax-keyword: #d98a9e;
+  --syntax-string: #9cc587;
+  --syntax-number: #e0a96d;
+  --syntax-title: #79b8e0;
+  --syntax-type: #5fcbc4;
+  --syntax-literal: #d98a9e;
+  --syntax-meta: #b3b0a8;
 }
 
 *,
@@ -83,6 +103,64 @@ body {
 
 ::selection {
   background: var(--color-accent-selection);
+}
+
+/* highlight.js token colors — driven by the theme palette above so they
+   adapt to light/dark automatically. */
+.hljs-comment,
+.hljs-quote {
+  color: var(--syntax-comment);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in {
+  color: var(--syntax-keyword);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-attr,
+.hljs-symbol {
+  color: var(--syntax-string);
+}
+
+.hljs-number,
+.hljs-bullet {
+  color: var(--syntax-number);
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-function .hljs-title {
+  color: var(--syntax-title);
+}
+
+.hljs-type,
+.hljs-class .hljs-title,
+.hljs-tag {
+  color: var(--syntax-type);
+}
+
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--syntax-literal);
+}
+
+.hljs-meta,
+.hljs-comment .hljs-doctag {
+  color: var(--syntax-meta);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {
