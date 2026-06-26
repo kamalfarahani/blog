@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import importlib.util
 import os
 from pathlib import Path
 
@@ -66,6 +67,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -74,7 +76,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if DEBUG:
+# debug_toolbar is a dev-only dependency; only enable it when it's installed
+# so production images (built without dev deps) can still run with DEBUG=true.
+if DEBUG and importlib.util.find_spec("debug_toolbar") is not None:
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
     INTERNAL_IPS = ["127.0.0.1"]
@@ -147,10 +151,68 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
+#
+# Static files (admin, DRF browsable API) are collected with `collectstatic`
+# and served by WhiteNoise. User-uploaded media goes to object storage in
+# production (see USE_S3 below) and is never served by Django.
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# Switch media to S3-compatible object storage (AWS S3 / Cloudflare R2 /
+# Backblaze B2) by setting USE_S3=true and the AWS_* vars. When off, media is
+# stored on local disk (suitable for development only).
+USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
+
+STORAGES: dict[str, dict] = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+if USE_S3:
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+            "region_name": os.environ.get("AWS_S3_REGION_NAME") or None,
+            "endpoint_url": os.environ.get("AWS_S3_ENDPOINT_URL") or None,
+            "access_key": os.environ.get("AWS_ACCESS_KEY_ID") or None,
+            "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY") or None,
+            # Public CDN/bucket domain so ImageField.url returns a public URL.
+            "custom_domain": os.environ.get("AWS_S3_CUSTOM_DOMAIN") or None,
+            # Public objects (images) — no signed URLs, cacheable by the browser.
+            "querystring_auth": False,
+            "location": os.environ.get("AWS_LOCATION", "media"),
+            "file_overwrite": False,
+        },
+    }
+
+
+# Security
+# https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+
+# Production-only hardening (assumes HTTPS behind a TLS-terminating proxy).
+if not DEBUG:
+    # Trust the proxy's X-Forwarded-Proto so request.is_secure() works.
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = (
+        os.environ.get("SECURE_SSL_REDIRECT", "true").lower() == "true"
+    )
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # HSTS — start small (e.g. 3600) when first enabling, then raise.
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
