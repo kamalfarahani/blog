@@ -23,8 +23,32 @@ export const Route = createFileRoute('/posts/$slug')({
     if (!post) throw notFound()
     return post
   },
-  head: ({ loaderData }) =>
-    loaderData ? { meta: [{ title: loaderData.title }] } : {},
+  head: ({ loaderData }) => {
+    if (!loaderData) return {}
+
+    const description = loaderData.excerpt || loaderData.title
+    const image = loaderData.featured_image ?? '/logo.svg'
+
+    return {
+      meta: [
+        { title: loaderData.title },
+        { name: 'description', content: description },
+        // Open Graph
+        { property: 'og:type', content: 'article' },
+        { property: 'og:title', content: loaderData.title },
+        { property: 'og:description', content: description },
+        { property: 'og:image', content: image },
+        // Twitter
+        {
+          name: 'twitter:card',
+          content: loaderData.featured_image ? 'summary_large_image' : 'summary',
+        },
+        { name: 'twitter:title', content: loaderData.title },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: image },
+      ],
+    }
+  },
   notFoundComponent: PostNotFound,
 })
 
