@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsIndexRoute = PostsIndexRouteImport.update({
   id: '/posts/',
   path: '/posts/',
@@ -36,12 +42,14 @@ const PostsSlugRoute = PostsSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/rss.xml': typeof RssDotxmlRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/': typeof homeIndexRoute
   '/about/': typeof AboutIndexRoute
   '/posts/': typeof PostsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/rss.xml': typeof RssDotxmlRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/': typeof homeIndexRoute
   '/about': typeof AboutIndexRoute
@@ -49,6 +57,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/rss.xml': typeof RssDotxmlRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/(home)/': typeof homeIndexRoute
   '/about/': typeof AboutIndexRoute
@@ -56,13 +65,20 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/posts/$slug' | '/' | '/about/' | '/posts/'
+  fullPaths: '/rss.xml' | '/posts/$slug' | '/' | '/about/' | '/posts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/posts/$slug' | '/' | '/about' | '/posts'
-  id: '__root__' | '/posts/$slug' | '/(home)/' | '/about/' | '/posts/'
+  to: '/rss.xml' | '/posts/$slug' | '/' | '/about' | '/posts'
+  id:
+    | '__root__'
+    | '/rss.xml'
+    | '/posts/$slug'
+    | '/(home)/'
+    | '/about/'
+    | '/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  RssDotxmlRoute: typeof RssDotxmlRoute
   PostsSlugRoute: typeof PostsSlugRoute
   homeIndexRoute: typeof homeIndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
@@ -71,6 +87,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posts/': {
       id: '/posts/'
       path: '/posts'
@@ -103,6 +126,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  RssDotxmlRoute: RssDotxmlRoute,
   PostsSlugRoute: PostsSlugRoute,
   homeIndexRoute: homeIndexRoute,
   AboutIndexRoute: AboutIndexRoute,

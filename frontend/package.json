@@ -29,6 +29,7 @@
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
+    "rss": "^1.2.2",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/node": "^22.10.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/rss": "^0.0.32",
     "@vitejs/plugin-react": "^6.0.1",
     "jsdom": "^28.1.0",
     "typescript": "^6.0.2",
