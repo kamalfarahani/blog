@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { Menu, X } from 'lucide-react'
+import { Menu, Rss, X } from 'lucide-react'
 
 import { ThemeToggle } from '#/components/ThemeToggle'
 
@@ -62,6 +62,10 @@ export function Navbar({ links = DEFAULT_NAV_LINKS }: NavbarProps) {
               </li>
             ))}
           </ul>
+
+          <a href="/rss.xml" className={styles.feed} aria-label="RSS feed">
+            <Rss size={18} strokeWidth={1.5} aria-hidden="true" />
+          </a>
 
           <ThemeToggle />
 
