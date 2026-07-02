@@ -7,6 +7,7 @@ import '@fontsource-variable/newsreader/index.css'
 import '@fontsource-variable/newsreader/wght-italic.css'
 
 import { Navbar, type NavLink } from '#/components/Navbar'
+import { RootErrorComponent, RootNotFound } from '#/components/RouteMessage'
 
 import appCss from '../styles.css?url'
 
@@ -49,6 +50,8 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  errorComponent: RootErrorComponent,
+  notFoundComponent: RootNotFound,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
